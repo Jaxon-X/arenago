@@ -1,0 +1,3 @@
+[tool.ruff]
+select = ["E"]  # faqat errorlarni ko'rsat
+ignore = ["W", "C", "N"]  # warning, convention va naming qoidalarini e'tiborga olma
