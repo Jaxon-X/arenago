@@ -9,4 +9,3 @@ class IsObjectOwner(permissions.BasePermission):
             return True
 
         return request.user == obj.owner
-
