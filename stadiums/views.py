@@ -9,9 +9,14 @@ from .permissions import IsObjectOwner
 
 
 class StadiumListCreateView(generics.ListCreateAPIView):
-    queryset = Stadium.objects.all()
     serializer_class = StadiumSerializer
     permission_classes = [IsAuthenticated, IsObjectOwner]
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Stadium.objects.none()
+
+        return Stadium.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
