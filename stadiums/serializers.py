@@ -1,7 +1,7 @@
 
 
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from models import Stadium
+from .models import Stadium
 
 class StadiumSerializer(GeoFeatureModelSerializer):
 
