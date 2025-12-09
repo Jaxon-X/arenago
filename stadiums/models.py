@@ -24,6 +24,7 @@ class Stadium(models.Model):
 
     location = gis_models.PointField(
         srid=4326,
+        geography=True,
         verbose_name="stadion lokasiyasi"
     )
     is_active = models.BooleanField(default=True, verbose_name="Faol holati")
@@ -37,4 +38,16 @@ class Stadium(models.Model):
         return self.name
 
 
+
+class StadiumImage(models.Model):
+
+    stadium = models.ForeignKey(Stadium, on_delete=CASCADE, verbose_name="stadion")
+    image = models.ImageField(upload_to='stadium_images/')
+
+    class Meta:
+        verbose_name = "rasm"
+        verbose_name_plural = "Stadion rasmlari"
+
+    def __str__(self):
+        return self.image.name
 

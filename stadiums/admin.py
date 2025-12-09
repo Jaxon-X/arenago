@@ -1,8 +1,15 @@
 from django.contrib.gis import admin as gis_admin
-from .models import Stadium
+from .models import Stadium, StadiumImage
+from django.contrib import admin
 
+class ImageInline(admin.TabularInline):
+    model = StadiumImage
+    max_num = 3
 
 class StadiumAdmin(gis_admin.ModelAdmin):
+    inlines = [
+        ImageInline,
+    ]
     list_display = ('name', 'owner', 'price_per_hour', 'is_active', 'created_at')
     list_filter = ('is_active', 'owner')
     search_fields = ('name', 'address', 'owner__name')
@@ -31,6 +38,8 @@ class StadiumAdmin(gis_admin.ModelAdmin):
 
 
 gis_admin.site.register(Stadium, StadiumAdmin)
+
+admin.site.register(StadiumImage)
 
 
 

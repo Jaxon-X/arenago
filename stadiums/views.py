@@ -1,10 +1,10 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 
 from .models import Stadium
-from .serializers import StadiumSerializer
+from .serializers import StadiumSerializer, StadiumListSerializer
 from .permissions import IsObjectOwner
 
 
@@ -30,8 +30,8 @@ class StadiumDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class StadiumNearByView(generics.ListAPIView):
-    serializer_class = StadiumSerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = StadiumListSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         lat = self.request.query_params.get('lat')
@@ -42,12 +42,12 @@ class StadiumNearByView(generics.ListAPIView):
                 latitude = float(lat)
                 longitude = float(lon)
 
-                user_location = Point(latitude, longitude, srid=4326)
+                user_location = Point(longitude, latitude, srid=4326)
 
                 return Stadium.objects.annotate(
                     distance = Distance('location', user_location)).order_by('distance')
             except ValueError:
-                return Stadium.objects.all()
+                return Stadium.objects.none()
 
         return Stadium.objects.all()
 
