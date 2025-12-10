@@ -7,7 +7,7 @@ from .models import Stadium, StadiumImage
 class StadiumImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = StadiumImage
-        fields = ('image')
+        fields = "__all__"
 
 
 class StadiumSerializer(GeoFeatureModelSerializer):
@@ -21,7 +21,7 @@ class StadiumSerializer(GeoFeatureModelSerializer):
 
     def validate_images(self,data):
         if len(data) != 3:
-            raise serializers.ValidationError("Images must be equal to 3")
+            raise serializers.ValidationError("Images count must be equal to 3")
 
     def create(self, validated_data):
 
@@ -36,9 +36,6 @@ class StadiumSerializer(GeoFeatureModelSerializer):
             )
 
         return stadium
-
-
-
 
 
 class StadiumListSerializer(GeoFeatureModelSerializer):
