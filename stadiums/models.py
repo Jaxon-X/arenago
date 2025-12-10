@@ -41,7 +41,7 @@ class Stadium(models.Model):
 
 class StadiumImage(models.Model):
 
-    stadium = models.ForeignKey(Stadium, on_delete=CASCADE, verbose_name="stadion")
+    stadium = models.ForeignKey(Stadium, on_delete=CASCADE, verbose_name="stadion", related_name='images')
     image = models.ImageField(upload_to='stadium_images/')
 
     class Meta:
